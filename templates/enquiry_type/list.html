@@ -1,0 +1,65 @@
+{% extends 'site_base.html' %}
+
+{% block content %}
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">Enquiry Types</h3>
+    </div>
+    <div class="box-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Type Name</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in object_list %}
+            <tr>
+                <td>{{item.enquiry_type}}</td>
+                <td>{{item.active}}</td>
+                <td>
+                    <div class="btn-group">
+                        <a href="{% url 'enquiry_type_change' pk=item.pk  %}" class="btn btn-sm btn-warning">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <td colspan="3">
+                {% if is_paginated %}
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                      {% if page_obj.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                      <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                  </ul>
+                {% endif %}
+            </td>
+            </tfoot>
+        </table>
+    </div>
+    <div class="box-footer">
+        <div style="text-align:right">
+            {% if perms.Teacher.can_manage_class_teacher %}
+                <a class="btn btn-sm btn-primary" href="{% url 'enquiry_type_create'%}">Add New</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'site_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">
+                {% if view.kwargs.pk %}
+                    Update Enquiry
+                {% else %}
+                    Create Enquiry
+                {% endif %}
+            </h3>
+        </div>
+        <div class="box-body">
+                {{form|crispy}}
+        </div>
+        <div class="box-footer">
+            <div style="text-align:right">
+                <div class="btn-group">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Submit" />
+                    <a href="{% url 'enquiry' %}" class="btn btn-sm btn-warning">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
